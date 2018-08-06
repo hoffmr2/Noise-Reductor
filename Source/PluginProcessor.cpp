@@ -10,7 +10,12 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "fftw3.h"
 
+
+fftw_complex* in; 
+fftw_complex* out; 
+fftw_plan fftwPlan;
 //==============================================================================
 NoiseReductorAudioProcessor::NoiseReductorAudioProcessor()
      : AudioProcessor (BusesProperties()
@@ -18,6 +23,9 @@ NoiseReductorAudioProcessor::NoiseReductorAudioProcessor()
                        .withOutput ("Output", AudioChannelSet::mono(), true)
                        )
 {
+    in = new fftw_complex[512];
+    out = new fftw_complex[512];
+    fftwPlan = fftw_plan_dft_1d(512, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 }
 
 NoiseReductorAudioProcessor::~NoiseReductorAudioProcessor()
@@ -93,7 +101,7 @@ bool NoiseReductorAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
     // This is the place where you check if the layout is supported.
     // In this template code we only support mono or stereo.
     if (layouts.getMainOutputChannelSet() != AudioChannelSet::mono()
-        || layouts.getMainInputChannelSet != AudioChannelSet::stereo())
+        || layouts.getMainInputChannelSet() != AudioChannelSet::stereo())
         return false;
     else
         return true;
@@ -127,6 +135,8 @@ void NoiseReductorAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
 
         // ..do something to the data...
     }
+
+    fftw_execute(fftwPlan);
 }
 
 //==============================================================================

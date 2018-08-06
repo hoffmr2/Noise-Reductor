@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="WyYjzu" name="NoiseReductor" projectType="audioplug" jucerVersion="5.3.2"
-              pluginFormats="buildVST3" pluginManufacturer="hoffmr2" aaxIdentifier="com.hoffmr2.NoiseReductor">
+              pluginFormats="buildStandalone,buildVST3" pluginManufacturer="hoffmr2"
+              aaxIdentifier="com.hoffmr2.NoiseReductor" headerPath="../../Include/Armadillo/include&#10;../../Include/fftw3">
   <MAINGROUP id="aoEZLA" name="NoiseReductor">
     <GROUP id="{39AB0546-898F-41D4-8EC0-BADFF1235872}" name="Source">
       <FILE id="bUeOEr" name="PluginProcessor.cpp" compile="1" resource="0"
@@ -14,7 +15,8 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2017 targetFolder="Builds/VisualStudio2017">
+    <VS2017 targetFolder="Builds/VisualStudio2017" vst3Folder="" extraLinkerFlags="/LIBPATH:../../Lib/fftw3"
+            externalLibraries="libfftw3-3.lib">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug"/>
         <CONFIGURATION isDebug="0" name="Release"/>
